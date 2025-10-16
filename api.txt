@@ -1,0 +1,51 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+const app = express();
+app.use(bodyParser.json());
+app.use(cors());
+
+app.get('/', (req, res) => {
+  res.send('Hello Welcome');
+});
+
+let books = [
+  { id: 1, title: "The Alchemist", author: "Paulo Coelho" },
+  { id: 2, title: "Atomic Habits", author: "James Clear" },
+  { id: 3, title: "Wings of Fire", author: "A.P.J Abdul Kalam" }
+];
+
+
+app.get('/books', (req, res) => {
+  res.json(books);
+});
+
+
+app.post('/books', (req, res) => {
+  const newBook = req.body;
+  books.push(newBook);
+  res.json(books);
+});
+
+
+app.put('/books/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = books.findIndex(b => b.id === id);
+  books[index] = { ...books[index], ...req.body };
+  res.json(books[index]);
+});
+
+
+app.delete('/books/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = books.findIndex(b => b.id === id);
+  const deleted = books.splice(index, 1);
+  res.json(deleted[0]);
+});
+
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
