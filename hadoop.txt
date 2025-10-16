@@ -1,0 +1,36 @@
+#hadoop experiment
+
+step 1:
+sudo apt update
+sudo apt install openjdk-11-jdk -y
+java -version
+
+step 2:
+cd ~
+wget https://downloads.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
+tar -xzf hadoop-3.3.6.tar.gz
+mv hadoop-3.3.6 hadoop
+
+step 3:
+nano ~/.bashrc
+
+#write this bashrc
+export HADOOP_HOME=$HOME/hadoop
+export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+
+source ~/.bashrc
+
+step 4:
+#check hadoop version
+hadoop version
+
+step 5:
+mkdir input
+echo "hello hadoop hello world" > input/file.txt
+
+step 6:
+hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.6.jar wordcount input output
+cat output/part-r-00000
+
+
